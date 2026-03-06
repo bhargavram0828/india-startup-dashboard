@@ -925,18 +925,20 @@ window.addEventListener('DOMContentLoaded',()=>{
 });
 
 // ── CLAUDE ──
+// Proxy URL — replace YOUR-SUBDOMAIN after deploying Cloudflare Worker
+const PROXY_URL = 'https://india-startup-proxy.bhargavrampaluri.workers.dev';
+
 async function callClaude(sys,msg,tokens=2000){
-  const r=await fetch('https://api.anthropic.com/v1/messages',{
+  if(PROXY_URL.includes('YOUR-SUBDOMAIN')) throw new Error('Proxy not set up yet — see README for Cloudflare Worker setup.');
+  const r=await fetch(PROXY_URL,{
     method:'POST',
-    mode:'cors',
     headers:{
       'Content-Type':'application/json',
       'x-api-key':apiKey,
       'anthropic-version':'2023-06-01',
-      'anthropic-dangerous-direct-browser-calls':'true'
     },
     body:JSON.stringify({
-      model:'claude-sonnet-4-5',
+      model:'claude-haiku-4-5',
       max_tokens:tokens,
       system:sys,
       messages:[{role:'user',content:msg}]
