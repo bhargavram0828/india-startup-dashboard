@@ -8,9 +8,31 @@
 
 ## What This Is
 
-A single-file HTML dashboard I built and maintain as a personal project to track the India startup ecosystem in real time. It uses the Claude API to generate live drill-down intelligence on demand — no backend, no database, no server.
+A single-file HTML dashboard built and maintained as a personal project to track the India startup ecosystem. It uses the Claude API to generate live drill-down intelligence on demand — no backend, no database, no server required on your end.
 
-Everything runs in the browser. You bring your own Claude API key.
+All static data (KPI cards, charts, deals, sector heatmap) loads instantly for everyone with **no sign-up and no API key needed.**
+
+The AI-powered features (drill-down intelligence + query engine) require your own Claude API key — each visitor uses their own, so there's no shared cost.
+
+---
+
+## How to Use
+
+### Viewing the dashboard
+Just visit the live link above. Everything loads immediately — charts, KPI cards, sector heatmap, notable deals. No account needed.
+
+### Activating AI features
+The drill-down panels and AI query engine need a Claude API key:
+
+1. Go to **[console.anthropic.com](https://console.anthropic.com)** → sign up (free)
+2. Go to **API Keys** → click **+ Create Key** → copy it immediately
+3. Add a payment method under **Billing** (required by Anthropic to activate keys)
+4. Set a **spend limit** under Settings → Limits → recommend $5/month
+5. Paste the key into the field at the top of the dashboard → click **Connect**
+
+**Cost per session:** ~$0.002–0.005 per query. A full session costs less than ₹1.
+
+Your key is saved in your browser — it auto-loads on your next visit and is never stored anywhere else.
 
 ---
 
@@ -18,35 +40,15 @@ Everything runs in the browser. You bring your own Claude API key.
 
 | Section | What it shows |
 |---|---|
-| **KPI Cards** | Total funding, unicorns, deal count, avg deal size, IPOs — filterable by year (2023/2024/2025/2026) |
-| **Quarterly Funding Chart** | Bar chart from Q1 2023 to Q1 2026 YTD |
+| **KPI Cards** | Total funding, unicorns, deal count, avg deal size, IPOs — filter by 2023 / 2024 / 2025 / 2026 YTD |
+| **Quarterly Funding Chart** | Bar chart Q1 2023 → Q1 2026 YTD |
 | **Sector Share Donut** | Funding split by sector — 2023, 2024, 2025 |
-| **Deal Stage Breakdown** | Seed → IPO funnel by year |
-| **Ecosystem Shift Panel** | Key metric changes 2023 → 2025 at a glance |
-| **Sector Heat Map** | 8 sectors with company dropdowns, filter by trending/top 5 |
-| **Notable Deals by Year** | 2023 / 2024 / 2025 / 2026 YTD — 5 shown, expand to 10 |
-| **Drill-Down Intelligence** | 4 panels (Unicorns / IPOs / Acquired / Shutdowns) — filter by sector AND year, powered by Claude API |
-| **AI Query Engine** | Ask anything about the India ecosystem — returns compact bullet insights |
-
----
-
-## How to Use
-
-### Option A — Just open the file
-Download `index.html` → open in any browser. That's it.
-
-### Option B — Use the live GitHub Pages link
-Visit the link at the top of this README.
-
-### Connecting the AI features
-The drill-down panels and query engine use the Claude API. To activate:
-
-1. Go to [console.anthropic.com](https://console.anthropic.com) → API Keys → Create Key
-2. Paste the key (`sk-ant-api03-...`) into the key field at the top of the dashboard
-3. Click **Connect**
-4. Your key is saved in your browser — it auto-loads on next visit
-
-**Cost:** ~$0.002–0.005 per query. A typical session costs less than ₹1.
+| **Deal Stage Breakdown** | Seed → IPO funnel — 2023, 2024, 2025 |
+| **Ecosystem Shift Panel** | Key metric changes 2023 → 2026 at a glance |
+| **Sector Heat Map** | 22 sectors with company dropdowns, trending filter |
+| **Notable Deals by Year** | 2023 / 2024 / 2025 / 2026 YTD — expand to 10 deals |
+| **Drill-Down Intelligence** | Top Valued / IPOs / Acquired / Shutdowns — filter by sector + year · requires API key |
+| **AI Query Engine** | Ask anything about the India ecosystem · requires API key |
 
 ---
 
@@ -54,7 +56,9 @@ The drill-down panels and query engine use the Claude API. To activate:
 
 ```
 HTML + CSS + Vanilla JavaScript    — zero dependencies, zero frameworks
-Claude API (claude-sonnet-4)       — AI drill-down and query engine
+Claude API (claude-haiku-4-5)      — AI drill-down and query engine
+Cloudflare Workers                 — API proxy (handles browser security)
+GitHub Pages                       — hosting
 Google Fonts                       — Playfair Display + JetBrains Mono
 ```
 
@@ -62,18 +66,18 @@ No npm. No build step. No backend. One file.
 
 ---
 
-## Data Sources & Methodology
+## Data Sources
 
-| Data type | Source |
+| Data | Source |
 |---|---|
-| Historical funding figures | Tracxn, Inc42, Bain India VC Report 2024 |
+| Historical funding | Tracxn, Inc42, Bain India VC Report 2024 |
 | Unicorn list | Hurun India Unicorn Index 2024 |
-| IPO data | NSE/BSE official listings |
-| Deal-level data | Public reporting (YourStory, TechCrunch India, Entrackr) |
-| 2025 estimates | Trend extrapolation from Q1–Q3 2025 |
+| IPO data | NSE / BSE official listings |
+| Deal-level data | YourStory, TechCrunch India, Entrackr |
+| 2025 estimates | Trend extrapolation from Q1–Q3 2025 actuals |
 | 2026 YTD | AI estimates — directional only, not audited |
 
-> All figures are for research and analysis purposes. Not financial advice.
+> All figures are for research and analysis purposes only. Not financial advice.
 
 ---
 
@@ -81,17 +85,17 @@ No npm. No build step. No backend. One file.
 
 | Version | Date | What changed |
 |---|---|---|
-| v1.0 | Mar 2026 | Initial publish — full dashboard with AI drill-downs |
+| v1.0 | Mar 2026 | Initial publish — full dashboard with AI drill-downs, Cloudflare proxy, GitHub Pages |
 
 ---
 
 ## Roadmap
 
-- [ ] Connect live data via Google Sheets + Make.com + Apify
-- [ ] Add city-level heat map (Bengaluru / Mumbai / Delhi NCR breakdown)
-- [ ] Add investor activity tracker (most active VCs by quarter)
-- [ ] Add weekly email digest mode
-- [ ] Mobile-optimised layout
+- [ ] Live data via Google Sheets + Make.com + Apify scrapers
+- [ ] City-level breakdown — Bengaluru vs Mumbai vs Delhi NCR
+- [ ] Investor activity tracker — most active VCs by quarter  
+- [ ] Mobile optimised layout
+- [ ] Weekly data refresh workflow
 
 ---
 
@@ -108,10 +112,8 @@ python3 -m http.server 8000
 
 ---
 
-## License
+## About
 
-MIT — fork it, use it, build on it. Credit appreciated but not required.
+Built by [@bhargavram0828](https://github.com/bhargavram0828) · Powered by Claude AI · Data covers 2023–2026
 
----
-
-*Built with Claude · Data covers 2023–2026 · India startup ecosystem*
+*MIT License — fork it, use it, build on it.*
